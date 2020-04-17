@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
             File::isDirectory(public_path('stats')) or File::makeDirectory(public_path('stats'), 0777, true, true);
 
             $image->save(public_path('stats/total.png'));
-        })->everyFiveMinutes();
+        })->everyFifteenMinutes();
     }
 
     /**
