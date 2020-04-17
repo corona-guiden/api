@@ -27,7 +27,6 @@ class GenerateTotalCasesImage
                 $font->file(storage_path('fonts/Avenir-Black.ttf'));
                 $font->size(72);
                 $font->color('#fff');
-            })
-            ->response('png');
+            });
     }
 }

@@ -2,8 +2,12 @@
 
 namespace App\Console;
 
+use App\Services\GenerateTotalCasesImage;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
+use Zttp\Zttp;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +28,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function() {
+            $url = 'https://api.covid19api.com/live/country/sweden';
+            $response = Zttp::get($url)->json();
+            $stats = collect($response)->last();
+
+            $image = GenerateTotalCasesImage::make($stats['Confirmed'], $stats['Deaths']);
+
+            File::isDirectory(public_path('stats')) or File::makeDirectory(public_path('stats'), 0777, true, true);
+
+            $image->save(public_path('stats/total.png'));
+        })->everyFiveMinutes();
     }
 
     /**

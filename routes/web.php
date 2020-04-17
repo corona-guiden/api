@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/stats/total.png', 'Stats\\TotalController@index');
+Route::view('/', 'home');
