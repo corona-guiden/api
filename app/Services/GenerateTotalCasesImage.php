@@ -2,13 +2,16 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Carbon;
 use Intervention\Image\Facades\Image;
 
 class GenerateTotalCasesImage
 {
     public static function make($confirmed, $deaths)
     {
-        $time = date('H:i   j M Y');
+        $time = Carbon::now()
+            ->setTimezone('Europe/Stockholm')
+            ->format('H:i   j M Y');
 
         return Image::make(resource_path('image-templates/total-cases.png'))
             ->text($confirmed, 1050, 325, function ($font) {
