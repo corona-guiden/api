@@ -1,7 +1,7 @@
 <?php
 
-use App\RegionStat;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AllRegionsController;
+use App\Http\Controllers\Api\RegionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,12 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('regions/all', function() {
-    return RegionStat::all();
-});
-
-Route::get('regions/{region}', function($region) {
-    return RegionStat::where('region', $region)
-        ->firstOrFail()
-        ->makeHidden('region');
-});
+Route::get('regions/all', AllRegionsController::class);
+Route::get('regions/{region}', RegionController::class);
