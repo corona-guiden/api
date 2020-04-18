@@ -5,6 +5,7 @@ namespace App\Imports;
 
 use App\RegionStat;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
@@ -22,10 +23,14 @@ class FourthSheetImport implements ToCollection, WithStartRow
                 return null;
             }
 
+            $region = mb_strtolower($row[0]);
+
+            Cache::forget('stats.regions.'. $region);
+
             RegionStat::updateOrCreate([
-                'region' => mb_strtolower($row[0]),
+                'region' => $region,
             ], [
-                'region' => mb_strtolower($row[0]),
+                'region' => $region,
                 'infected' => $row[1],
                 'infected_per_100000_ppl' => $row[2],
                 'intensive_care' => $row[3],

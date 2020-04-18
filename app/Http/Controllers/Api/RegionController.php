@@ -10,7 +10,7 @@ class RegionController extends Controller
 {
     public function __invoke($region)
     {
-        return Cache::rememberForever('stats.regions', function () use ($region) {
+        return Cache::rememberForever('stats.regions.' . $region, function () use ($region) {
             return RegionStat::where('region', $region)
                 ->firstOrFail()
                 ->makeHidden('region');

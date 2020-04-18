@@ -50,7 +50,7 @@ class ImportStatistics extends Command
         Excel::import(new CoronaStatsImport, storage_path('app/corona-stats.xlsx'));
 
         // Clear cache
-        Cache::forget('stats.regions');
+        Cache::forget('stats.regions.all');
 
         $this->info('Done');
     }

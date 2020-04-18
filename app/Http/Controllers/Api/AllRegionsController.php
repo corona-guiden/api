@@ -10,7 +10,7 @@ class AllRegionsController extends Controller
 {
     public function __invoke()
     {
-        return Cache::rememberForever('stats.regions', function() {
+        return Cache::rememberForever('stats.regions.all', function() {
             return RegionStat::all();
         });
     }
