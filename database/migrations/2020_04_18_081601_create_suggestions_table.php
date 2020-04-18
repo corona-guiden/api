@@ -22,7 +22,7 @@ class CreateSuggestionsTable extends Migration
             $table->string('source');
             $table->string('previous_answer')->nullable();
             $table->unsignedInteger('qna_id')->nullable();
-            $table->string('question_id')->unsigned();
+            $table->string('question_id')->nullable();
 
             $table->timestamp('source_updated_at');
             $table->timestamps();
