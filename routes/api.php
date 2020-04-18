@@ -1,5 +1,6 @@
 <?php
 
+use App\RegionStat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('region/all', function() {
+    return RegionStat::all();
+});
+
+Route::get('region/{region}', function($region) {
+    return RegionStat::where('region', $region)
+        ->firstOrFail()
+        ->makeHidden('region');
 });

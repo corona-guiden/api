@@ -2,11 +2,14 @@
 
 namespace App\Console;
 
+use App\Imports\CoronaStatsImport;
+use App\RegionStat;
 use App\Services\GenerateTotalCasesImage;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Zttp\Zttp;
 
 class Kernel extends ConsoleKernel
@@ -29,16 +32,26 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function() {
-            $url = 'https://api.covid19api.com/live/country/sweden';
-            $response = Zttp::get($url)->json();
-            $stats = collect($response)->last();
+            /**
+             * Update database
+             */
+            $response = Zttp::get('https://www.arcgis.com/sharing/rest/content/items/b5e7488e117749c19881cce45db13f7e/data')->body();
+            Storage::disk('local')->put('corona-stats.xlsx', $response);
 
-            $image = GenerateTotalCasesImage::make($stats['Confirmed'], $stats['Deaths']);
+            $import = new CoronaStatsImport();
+            $import->onlySheets('Regions');
+
+            Excel::import($import, storage_path('app/corona-stats.xlsx'));
+
+            /**
+             * Generate and store image
+             */
+            $image = GenerateTotalCasesImage::make(RegionStat::regionsTotalCases(), RegionStat::regionsTotalDeaths());
 
             File::isDirectory(public_path('stats')) or File::makeDirectory(public_path('stats'), 0777, true, true);
 
             $image->save(public_path('stats/total.png'));
-        })->everyFiveMinutes();
+        })->dailyAt('14:00')->timezone('Europe/Stockholm');
     }
 
     /**

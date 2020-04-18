@@ -7,7 +7,12 @@ use Intervention\Image\Facades\Image;
 
 class GenerateTotalCasesImage
 {
-    public static function make($confirmed, $deaths)
+    /**
+     * @param int $confirmed
+     * @param int $deaths
+     * @return \Intervention\Image\Image
+     */
+    public static function make(int $confirmed, int $deaths)
     {
         $time = Carbon::now()
             ->setTimezone('Europe/Stockholm')
