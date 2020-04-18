@@ -15,7 +15,7 @@ class CreateRegionStatTable extends Migration
     {
         Schema::create('region_stats', function (Blueprint $table) {
             $table->id();
-            $table->integer('region');
+            $table->string('region');
             $table->integer('infected');
             $table->integer('infected_per_100000_ppl');
             $table->integer('intensive_care');
