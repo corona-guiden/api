@@ -74,7 +74,7 @@
                     <a href="https://www.facebook.com/coronaguidenchat/">Facebook</a>
                     <a href="tel:+46858097757">08 - 580 977 57</a>
                     <a href="/api/regions/all">API – Regioner</a>
-                    <a href="/stats/total.png">smittade.png</a>
+                    <a href="/storage/stats/total.png">smittade.png</a>
                 </div>
             </div>
         </div>
