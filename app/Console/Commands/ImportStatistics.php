@@ -46,10 +46,7 @@ class ImportStatistics extends Command
         $response = Zttp::get('https://www.arcgis.com/sharing/rest/content/items/b5e7488e117749c19881cce45db13f7e/data')->body();
         Storage::disk('local')->put('corona-stats.xlsx', $response);
 
-        $import = new CoronaStatsImport();
-        $import->onlySheets('Regions');
-
-        Excel::import($import, storage_path('app/corona-stats.xlsx'));
+        Excel::import(new CoronaStatsImport, storage_path('app/corona-stats.xlsx'));
         $this->info('Done');
     }
 }
