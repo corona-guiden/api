@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Imports\CoronaStatsImport;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Zttp\Zttp;
@@ -47,6 +48,10 @@ class ImportStatistics extends Command
         Storage::disk('local')->put('corona-stats.xlsx', $response);
 
         Excel::import(new CoronaStatsImport, storage_path('app/corona-stats.xlsx'));
+
+        // Clear cache
+        Cache::forget('stats.regions');
+
         $this->info('Done');
     }
 }
