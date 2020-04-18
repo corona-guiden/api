@@ -6,7 +6,6 @@ namespace App\Imports;
 use App\RegionStat;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
 class FourthSheetImport implements ToCollection, WithStartRow
@@ -27,10 +26,10 @@ class FourthSheetImport implements ToCollection, WithStartRow
                 'region' => mb_strtolower($row[0]),
             ], [
                 'region' => mb_strtolower($row[0]),
-                'total_cases' => $row[1],
-                'cases_per_1m' => $row[2],
-                'critical_cases' => $row[3],
-                'deaths' => $row[4],
+                'infected' => $row[1],
+                'infected_per_100000_ppl' => $row[2],
+                'intensive_care' => $row[3],
+                'deceased' => $row[4],
             ]);
         }
     }

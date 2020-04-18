@@ -8,24 +8,24 @@ use Intervention\Image\Facades\Image;
 class GenerateTotalCasesImage
 {
     /**
-     * @param int $confirmed
-     * @param int $deaths
+     * @param int $confirmedCases
+     * @param int $confirmedDeaths
      * @return \Intervention\Image\Image
      */
-    public static function make(int $confirmed, int $deaths)
+    public static function make(int $confirmedCases, int $confirmedDeaths)
     {
         $time = Carbon::now()
             ->setTimezone('Europe/Stockholm')
             ->format('H:i   j M Y');
 
         return Image::make(resource_path('image-templates/total-cases.png'))
-            ->text($confirmed, 1050, 325, function ($font) {
+            ->text($confirmedCases, 1050, 325, function ($font) {
                 $font->file(resource_path('fonts/Avenir-Black.ttf'));
                 $font->align('right');
                 $font->size(130);
                 $font->color('#290303');
             })
-            ->text($deaths, 1050, 555, function ($font) {
+            ->text($confirmedDeaths, 1050, 555, function ($font) {
                 $font->file(resource_path('fonts/Avenir-Black.ttf'));
                 $font->align('right');
                 $font->size(130);

@@ -23,6 +23,11 @@ use Zttp\Zttp;
 */
 
 Route::get('test', function() {
+    $job = new \App\Jobs\ScrapeSuggestions();
+    $job->handle();
+
+    die();
+
     return GenerateTotalCasesImage::make(RegionStat::regionsTotalCases(), RegionStat::regionsTotalDeaths())
         ->response('png');
 });

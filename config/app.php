@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Weidner\Goutte\GoutteServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -207,6 +208,7 @@ return [
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Goutte' => Weidner\Goutte\GoutteFacade::class,
         'Http' => Illuminate\Support\Facades\Http::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,

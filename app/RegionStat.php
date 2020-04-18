@@ -11,19 +11,19 @@ class RegionStat extends Model
     protected $hidden = ['id', 'created_at'];
 
     protected $casts = [
-        'total_cases' => 'integer',
-        'cases_per_1m' => 'integer',
-        'critical_cases' => 'integer',
-        'deaths' => 'integer',
+        'infected' => 'integer',
+        'infected_per_100000_ppl' => 'integer',
+        'intensive_care' => 'integer',
+        'deceased' => 'integer',
     ];
 
     public static function regionsTotalCases()
     {
-        return static::all()->sum('total_cases');
+        return static::all()->sum('infected');
     }
 
     public static function regionsTotalDeaths()
     {
-        return static::all()->sum('deaths');
+        return static::all()->sum('deceased');
     }
 }
