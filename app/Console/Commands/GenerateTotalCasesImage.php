@@ -42,8 +42,8 @@ class GenerateTotalCasesImage extends Command
         $this->line('Generating image...');
 
         $image = \App\Services\GenerateTotalCasesImage::make(RegionStat::regionsTotalCases(), RegionStat::regionsTotalDeaths());
-        File::isDirectory(public_path('stats')) or File::makeDirectory(public_path('stats'), 0755, true, true);
-        $image->save(public_path('stats/total.png'));
+        File::isDirectory(storage_path('app/public/stats')) or File::makeDirectory(storage_path('app/public/stats'), 0755, true, true);
+        $image->save(storage_path('app/public/stats/total.png'));
 
         $this->info('Done');
     }
