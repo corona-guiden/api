@@ -73,8 +73,8 @@
                 <div class="links">
                     <a href="https://www.facebook.com/coronaguidenchat/">Facebook</a>
                     <a href="tel:+46858097757">08 - 580 977 57</a>
-                    <a href="https://www.folkhalsomyndigheten.se/">FOHM</a>
-                    <a href="{{ asset('') }}/">smittade.png</a>
+                    <a href="/api/regions/all">API – Regioner</a>
+                    <a href="/stats/total.png">smittade.png</a>
                 </div>
             </div>
         </div>
