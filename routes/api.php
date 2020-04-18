@@ -15,11 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('region/all', function() {
+Route::get('regions/all', function() {
     return RegionStat::all();
 });
 
-Route::get('region/{region}', function($region) {
+Route::get('regions/{region}', function($region) {
     return RegionStat::where('region', $region)
         ->firstOrFail()
         ->makeHidden('region');
