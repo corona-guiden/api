@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Suggestion;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SuggestionsController extends Controller
 {
@@ -14,7 +16,20 @@ class SuggestionsController extends Controller
      */
     public function index()
     {
-        //
+        $suggestions = QueryBuilder::for(Suggestion::where('question','LIKE','%'.request('search').'%'))
+            ->allowedSorts('status', 'answer', 'question')
+            ->allowedFilters('status', 'answer', 'question');
+//            ->when(false, function($query) {
+//                return $query->paginate(request('perPage'));
+//            })
+//            ->appends(request()->query())
+
+
+        if(request('perPage') == -1) {
+            return JsonResource::make($suggestions->get());
+        }
+
+        return $suggestions->paginate(request('perPage'));
     }
 
     /**
@@ -31,12 +46,12 @@ class SuggestionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Suggestion  $suggestions
-     * @return \Illuminate\Http\Response
+     * @param  \App\Suggestion  $suggestion
+     * @return Suggestion
      */
-    public function show(Suggestion $suggestions)
+    public function show(Suggestion $suggestion)
     {
-        //
+        return $suggestion;
     }
 
     /**

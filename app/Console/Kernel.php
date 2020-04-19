@@ -35,12 +35,9 @@ class Kernel extends ConsoleKernel
         $schedule->job(ScrapeSuggestions::class)->everyFiveMinutes();
 
         $schedule->call(function() {
-            // Sleep 10 seconds to make sure the import api is updated by 14:00
-            sleep(10);
-
             $this->call('import:stats');
             $this->call('generate-image:total-cases');
-        })->dailyAt('14:00')->timezone('Europe/Stockholm');
+        })->dailyAt('14:01')->timezone('Europe/Stockholm');
     }
 
     /**

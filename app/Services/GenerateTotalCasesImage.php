@@ -16,7 +16,7 @@ class GenerateTotalCasesImage
     {
         $time = Carbon::now()
             ->setTimezone('Europe/Stockholm')
-            ->format('H:i   j M Y');
+            ->format('14:00   j M Y');
 
         return Image::make(resource_path('image-templates/total-cases.png'))
             ->text($confirmedCases, 1050, 325, function ($font) {

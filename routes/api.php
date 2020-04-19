@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Api\AllRegionsController;
 use App\Http\Controllers\Api\RegionController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SuggestionsController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +20,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('regions/all', AllRegionsController::class);
 Route::get('regions/{region}', RegionController::class);
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout']);
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::apiResource('suggestions', SuggestionsController::class);
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
