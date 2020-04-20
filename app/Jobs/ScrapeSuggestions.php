@@ -41,7 +41,7 @@ class ScrapeSuggestions implements ShouldQueue
         /** @var Crawler $crawler */
         $crawler = \Goutte::request('GET', $url);
 
-        $crawler->filter('.accordion__item')->each(function ($node) {
+        $crawler->filter('.faq-container .accordion__item')->each(function ($node) {
             /** @var Crawler $node */
             $question = $node->filter('strong .accordion__item__title__text span')->first()->text();
             $answer = $node->filter('.textbody div:not(.accordion__meta) p')->first()->text();
