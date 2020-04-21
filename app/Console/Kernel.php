@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function() use ($schedule) {
+        $schedule->call(function() {
             WebsiteMonitor::all()->each->scrape();
         })->hourly();
 
