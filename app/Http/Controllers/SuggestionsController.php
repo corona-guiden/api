@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Suggestion;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class SuggestionsController extends Controller
 {
@@ -16,20 +14,14 @@ class SuggestionsController extends Controller
      */
     public function index()
     {
-        $suggestions = QueryBuilder::for(Suggestion::where('question','LIKE','%'.request('search').'%'))
-            ->allowedSorts('status', 'answer', 'question')
-            ->allowedFilters('status', 'answer', 'question');
-//            ->when(false, function($query) {
-//                return $query->paginate(request('perPage'));
-//            })
-//            ->appends(request()->query())
-
-
-        if(request('perPage') == -1) {
-            return JsonResource::make($suggestions->get());
-        }
-
-        return $suggestions->paginate(request('perPage'));
+        return Suggestion::select([
+            'id',
+            'question',
+            'source',
+            'question_id',
+            'status',
+            'source_updated_at',
+        ])->get();
     }
 
     /**
@@ -46,7 +38,7 @@ class SuggestionsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Suggestion  $suggestion
+     * @param \App\Suggestion $suggestion
      * @return Suggestion
      */
     public function show(Suggestion $suggestion)
@@ -57,8 +49,8 @@ class SuggestionsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Suggestion  $suggestions
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Suggestion $suggestions
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Suggestion $suggestions)
@@ -69,7 +61,7 @@ class SuggestionsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Suggestion  $suggestions
+     * @param \App\Suggestion $suggestions
      * @return \Illuminate\Http\Response
      */
     public function destroy(Suggestion $suggestions)

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AllRegionsController;
 use App\Http\Controllers\Api\RegionController;
+use App\Http\Controllers\Api\WebsiteMonitorController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SuggestionsController;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ Route::post('logout', [LoginController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('suggestions', SuggestionsController::class);
+    Route::apiResource('website-monitors', WebsiteMonitorController::class);
     Route::get('/user', function (Request $request) {
         return $request->user();
     });

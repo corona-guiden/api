@@ -61,16 +61,16 @@ class ScrapeSuggestions implements ShouldQueue
             ]);
 
             if ($suggestion->exists() && $suggestion->answer !== $answer) {
+                if ($suggestion->qna()->exists()) {
+                    $qna = $suggestion->qna();
+                    $qna->status = 'updated';
+                    return $qna->save();
+                }
+
                 $suggestion->previous_answer = $suggestion->answer;
                 $suggestion->source_updated_at = $sourceUpdatedAt;
                 $suggestion->status = 'updated';
                 $suggestion->answer = $answer;
-
-                if ($suggestion->qna()->exists()) {
-                    $qna = $suggestion->qna();
-                    $qna->status = 'updated';
-                    $qna->save();
-                }
             }
 
             $suggestion->save();
