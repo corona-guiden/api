@@ -3,10 +3,13 @@
 namespace App\Console;
 
 use App\Imports\CoronaStatsImport;
+use App\Jobs\GenerateImages;
+use App\Jobs\ImportStatistics;
 use App\Jobs\ScrapeSuggestions;
 use App\Jobs\ScrapeWebsiteMonitors;
 use App\RegionStat;
 use App\Services\GenerateTotalCasesImage;
+use App\WebsiteMonitor;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\File;
@@ -28,17 +31,18 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->call(function() use ($schedule) {
+            WebsiteMonitor::all()->each->scrape();
+        })->everyMinute();
+
         $schedule->job(ScrapeSuggestions::class)->everyFiveMinutes();
-        $schedule->job(ScrapeWebsiteMonitors::class)->hourly();
-        $schedule->call(function() {
-            $this->call('import:stats');
-            $this->call('generate-image:total-cases');
-        })->dailyAt('14:01')->timezone('Europe/Stockholm');
+        $schedule->job(ImportStatistics::class)->dailyAt('14:01')->timezone('Europe/Stockholm');
+        $schedule->job(GenerateImages::class)->dailyAt('14:01')->timezone('Europe/Stockholm');
     }
 
     /**
@@ -48,7 +52,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

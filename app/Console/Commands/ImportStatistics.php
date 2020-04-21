@@ -44,13 +44,7 @@ class ImportStatistics extends Command
     {
         $this->line('Importing stats from FOHM...');
 
-        $response = Zttp::get('https://www.arcgis.com/sharing/rest/content/items/b5e7488e117749c19881cce45db13f7e/data')->body();
-        Storage::disk('local')->put('corona-stats.xlsx', $response);
-
-        Excel::import(new CoronaStatsImport, storage_path('app/corona-stats.xlsx'));
-
-        // Clear cache
-        Cache::forget('stats.regions.all');
+        \App\Jobs\ImportStatistics::dispatchNow();
 
         $this->info('Done');
     }

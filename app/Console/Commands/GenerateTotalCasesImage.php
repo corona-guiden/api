@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\RegionStat;
+use App\Services\GenerateTotalCasesImage as GenerateTotalCasesImageService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -41,9 +42,7 @@ class GenerateTotalCasesImage extends Command
     {
         $this->line('Generating image...');
 
-        $image = \App\Services\GenerateTotalCasesImage::make(RegionStat::regionsTotalCases(), RegionStat::regionsTotalDeaths());
-        File::isDirectory(storage_path('app/public/stats')) or File::makeDirectory(storage_path('app/public/stats'), 0755, true, true);
-        $image->save(storage_path('app/public/stats/total.png'));
+        GenerateTotalCasesImageService::make(RegionStat::regionsTotalCases(), RegionStat::regionsTotalDeaths())->save();
 
         $this->info('Done');
     }
