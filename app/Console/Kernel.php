@@ -43,6 +43,10 @@ class Kernel extends ConsoleKernel
         $schedule->job(ScrapeSuggestions::class)->everyFiveMinutes();
         $schedule->job(ImportStatistics::class)->dailyAt('14:01')->timezone('Europe/Stockholm');
         $schedule->job(GenerateImages::class)->dailyAt('14:01')->timezone('Europe/Stockholm');
+
+        // Make sure we have the latest stats
+        $schedule->job(ImportStatistics::class)->dailyAt('15:00')->timezone('Europe/Stockholm');
+        $schedule->job(GenerateImages::class)->dailyAt('15:00')->timezone('Europe/Stockholm');
     }
 
     /**
