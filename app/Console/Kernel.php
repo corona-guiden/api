@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function() use ($schedule) {
             WebsiteMonitor::all()->each->scrape();
-        })->everyMinute();
+        })->hourly();
 
         $schedule->job(ScrapeSuggestions::class)->everyFiveMinutes();
         $schedule->job(ImportStatistics::class)->dailyAt('14:01')->timezone('Europe/Stockholm');
