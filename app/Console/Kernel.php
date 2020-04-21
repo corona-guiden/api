@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Imports\CoronaStatsImport;
 use App\Jobs\ScrapeSuggestions;
+use App\Jobs\ScrapeWebsiteMonitors;
 use App\RegionStat;
 use App\Services\GenerateTotalCasesImage;
 use Illuminate\Console\Scheduling\Schedule;
@@ -33,7 +34,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(ScrapeSuggestions::class)->everyFiveMinutes();
-
+        $schedule->job(ScrapeWebsiteMonitors::class)->hourly();
         $schedule->call(function() {
             $this->call('import:stats');
             $this->call('generate-image:total-cases');
